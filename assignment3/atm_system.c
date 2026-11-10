@@ -2,13 +2,19 @@
 #include <math.h>
 #include <stdbool.h>
 #include <string.h>
+#include <unistd.h>
 
 int withdraw(int x)
 {
     int y, z;
     printf("how much would you like to withdraw:\n");
     scanf("%d" ,&y);
-    if (y > x)
+    if (y <= 0)
+    {
+        printf("invalid amount\n");
+        z = x;
+    }
+    else if(y > x)
     {
         printf("insufficient balance\n");
         z = x;
@@ -22,21 +28,29 @@ int withdraw(int x)
 }
 int deposit(int x)
 {
-    int y;
+    int y,z ;
     printf("enter amount you wish to deposit:\n");
     scanf("%d" ,&y);
-    int z = x + y;
+    if (y <= 0)
+    {
+        printf("invalid amount\n");
+        z = x;
+    }
+    else
+    {
+        z = x + y;
+    }
     return z;
 }
 int checkbalance(int x)
 {
-    printf("current balance is %d\n",x);
+    printf("current balance is %d $\n",x);
 }
 int menu(void)
 {
     int choice;
-    printf("choose an option:\n");
-    printf("1.Balance Inquiry\n2.Deposit\n3.Withdraw\n4.Exit\n");
+    printf("---ATM MENU---\n1.Balance Inquiry\n2.Deposit\n3.Withdraw\n4.Exit\n");
+    printf("choose an option (1-4):\n");
     scanf("%d" ,&choice);
     return choice;
 
@@ -83,23 +97,27 @@ int main(void)
             if (choice == 1)
             {
                 checkbalance(balance);
+                sleep(2);
                 choice = menu();
             }   
             else if (choice == 2)
             {
                 balance = deposit(balance);
-                printf("successfully deposited\nNew balance is %d\n" ,balance);
+                printf("New balance is %d $\n" ,balance);
+                sleep(2);
                 choice = menu();
             }
             else if (choice == 3)
             {
                 balance = withdraw(balance);
-                printf("new balance is %d\n" ,balance);
+                printf("new balance is %d $\n" ,balance);
+                sleep(2);
                 choice = menu();
             }
             else
             {
                 printf("invalid option\n");
+                sleep(2);
                 choice = menu();
             }
         }
